@@ -7,21 +7,25 @@ import ProductDetails from './pages/ProductDetails';
 import CheckoutPage from './pages/CheckoutPage';
 import CartPage from './pages/CartPage';
 import PaymentConfirmationPage from './pages/PaymentConfirmationPage';
+import { CartProvider } from './context';
+
 import './index.css';
 
 function App() {
   return (
     <BrowserRouter>
-      <TopNavBar/>
-      <Header/> 
-        <Routes>
-            <Route path="/" element={<HomePage />}/>
-            <Route path="/product-details/:id" element={<ProductDetails />}/>
-            <Route path="/checkout" element={<CheckoutPage />}/>
-            <Route path="/cart" element={<CartPage />}/>
-            <Route path="/payment-confirmation" element={<PaymentConfirmationPage />}/>
-        </Routes>
-      <Footer/>
+        <CartProvider>
+            <TopNavBar/>
+            <Header/> 
+              <Routes>
+                  <Route path="/" element={<HomePage />}/>
+                  <Route path="/product-details/:id" element={<ProductDetails />}/>
+                  <Route path="/checkout" element={<CheckoutPage />}/>
+                  <Route path="/cart" element={<CartPage />}/>
+                  <Route path="/payment-confirmation" element={<PaymentConfirmationPage />}/>
+              </Routes>
+            <Footer/>
+        </CartProvider>
     </BrowserRouter>
   );
 }

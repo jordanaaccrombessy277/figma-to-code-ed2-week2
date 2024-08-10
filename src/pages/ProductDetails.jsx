@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import Product from '../components/Product'
 import { SizeProduct, ColorProduct } from '../components/product.components'
 import cart from '../assets/icons/cart.svg'
 import { fetchProducts } from '../services/productService'
 import { useParams, Link } from 'react-router-dom'
+import { CartContext } from '../context'
 
 
 
@@ -20,6 +21,12 @@ function ProductDetails() {
   const [isSelectedColor, setIsSelectedColor] = useState([false, false, false, false])
   const [isSelectedSize, setIsSelectedSize] = useState([false, false, false, false, false])
 
+  const {addToCart} = useContext(CartContext)
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
+
   useEffect(()=>{
      const getProduct = async () =>{
 
@@ -32,33 +39,33 @@ function ProductDetails() {
         setProduct(data.data.product);  
         console.log(data)
    
-    }catch (error) {
-      console.error('Fetch error produit:', error);
-      setError(error.message)
-      throw error;
-    }finally{
-           console.log('Requete terminé pour product details.')
-           setTimeout(()=> {
-            setLoading(false);
-           }, 3000)
-        }
-     }
+      }catch (error) {
+        console.error('Fetch error produit:', error);
+        setError(error.message)
+        throw error;
+      }finally{
+            console.log('Requete terminé pour product details.')
+            setTimeout(()=> {
+              setLoading(false);
+            }, 3000)
+          }
+      }
 
      getProduct()
 
      const getProducts = async () => {
-      try {  
-        const getProducts = await fetchProducts(4)
-        setProducts(getProducts);  
-      }catch (error) {
-        setErrorProducts(error.message);
-        console.log('Une erreur', error)
-      }finally{
-         console.log('Requete terminé.')
-         setTimeout(()=> {
-          setLoadingProducts(false);
-         }, 1000)
-      }  
+        try {  
+          const getProducts = await fetchProducts(4)
+          setProducts(getProducts);  
+        }catch (error) {
+          setErrorProducts(error.message);
+          console.log('Une erreur', error)
+        }finally{
+          console.log('Requete terminé.')
+          setTimeout(()=> {
+            setLoadingProducts(false);
+          }, 1000)
+        }  
     };
      
     getProducts()
@@ -125,8 +132,8 @@ function ProductDetails() {
                 (<div className="py-8 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3.5">
                         {
                           products.map((product)=>(
-                            <Link to={`/product-details/${encodeURIComponent(product.id)}`} className="">
-                              <Product key={product.id} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
+                            <Link key={product.id} to={`/product-details/${encodeURIComponent(product.id)}`} className="">
+                              <Product handleAddToCart={()=>handleAddToCart(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
                             </Link>
                             ))                 
                         }

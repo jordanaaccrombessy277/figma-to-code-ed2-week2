@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Hero } from '../components/home.components'
 import arrow from '../assets/icons/arrow.svg'
 import { hero } from '../constants'
@@ -9,12 +9,19 @@ import abrahamg from '../assets/images/abraham-george-wwVtHt5Px18-unsplash.svg'
 import techmen from '../assets/images/tech-mens-fleece-shacket-W5pmdx.svg'
 import { fetchProducts } from '../services/productService'
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context'
 
 function HomePage() {
 
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
+
+   const {addToCart} = useContext(CartContext)
+
+   const handleAddToCart = (product) => {
+      addToCart(product);
+    };
 
    useEffect(() => {
      
@@ -49,13 +56,13 @@ function HomePage() {
             </ul>
         </div>
         {
-          loading ? <p className="text-center p-6 text-base font-semibold">Loading...</p>
-          : error ? <p className='text-center p-6 text-base font-semibold text-red-500'>{error}</p> : (
+          loading ? <p className="text-center p-6 text-base">Loading...</p>
+          : error ? <p className='text-center p-6 text-base text-red-500'>{error}</p> : (
               <div className="px-6 md:px-150 py-9 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3.5">
                   {
                      products.map((product)=>(
-                       <Link to={`/product-details/${encodeURIComponent(product.id)}`} className="">
-                          <Product key={product.id} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
+                       <Link key={product.id} to={`/product-details/${encodeURIComponent(product.id)}`} className="">
+                          <Product handleAddToCart={()=>handleAddToCart(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
                        </Link>
                       ))                 
                   }
