@@ -46,7 +46,7 @@ function CartPage() {
             <div className=" lg:w-3/4 w-full">
                <div className="pb-5 flex flex-row justify-between">
                   <p className="font-chillaxsemibold md:text-2xl text-lg">Cart({cart.length})</p>
-                  <span onClick={()=>handleClearCart()} className="px-2.5 cursor-pointer py-2 bg-grayopacity50 rounded-2xl flex flex-row items-center gap-1"> <img src={trash} alt="trash" /><span className='font-archivo font-medium md:text-xs text-10 text-gray-dark'>Clear Cart</span></span>
+                  <span onClick={()=>handleClearCart()} className="px-2.5 cursor-pointer py-2 hover:bg-white hover:border bg-grayopacity50 rounded-2xl flex flex-row items-center gap-1"> <img src={trash} alt="trash" /><span className='font-archivo font-medium md:text-xs text-10 text-gray-dark'>Clear Cart</span></span>
                </div>
                <table className="border-collapse w-full">
                   <thead>
@@ -58,12 +58,12 @@ function CartPage() {
                   </thead>
                   <tbody className=''>
                       {
-                        cart.length === 0 ? <tr><td className="py-6 text-base">Vous n'avez encore ajouté aucun produit dans le panier</td></tr>  :
+                        cart.length === 0 ? <tr><td className="py-6 text-base">No products added to cart</td></tr>  :
                         (
                            cart.map((product)=>(
                               <ProductCart key={product.id} handleRemoveFromCart={()=>handleRemoveFromCart(product)} productImg={product.featuredImage.url} add_icon={add_icon}
                               trashb={trashb} incrementQuantityProduct={()=>handleincrementQuantityProduct(product)} decrementQuantityProduct={()=>handledecrementQuantityProduct(product)} title={product.title} 
-                              short_description={product.description} price={product.variants.edges[0].node.price.amount} number_product={product.quantity}
+                              short_description={`Green - Large`} price={product.variants.edges[0].node.price.amount} number_product={product.quantity}
                               />
                            ))
                         )

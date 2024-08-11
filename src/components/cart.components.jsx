@@ -5,7 +5,7 @@ import remove_icongray from '../assets/icons/remove_icon.svg'
  export const ProductCart = ({productImg, handleRemoveFromCart, add_icon, trashb, title, short_description,price,number_product, incrementQuantityProduct, decrementQuantityProduct }) => {
     return (
         <tr className='border-b '>
-            <td className='py-5 md:w-60 w-30'>
+            <td className='py-5 md:w-9/12 w-30'>
                 <div className="flex flex-row gap-2.5">
                     <div className="md:w-72 md:h-72 w-45 h-45 rounded-lg overflow-hidden">
                         <img src={productImg} className='w-full h-full object-cover' alt="product" />
@@ -17,7 +17,7 @@ import remove_icongray from '../assets/icons/remove_icon.svg'
                     </div>
                 </div>
             </td>
-            <td className='py-5 md:w-35 w-60'>                       
+            <td className='py-5 md:w-10 w-60 border'>                       
                 <div className="flex flex-row md:gap-2 gap-1.5 justify-center">
                     <div className="flex flex-row md:p-3 justify-center py-2 md:gap-3 gap-1.5 bg-grayopacity40 rounded-3xl">
                         <img onClick={number_product === 1 ? null : ()=>decrementQuantityProduct()} className="md:w-5 md:h-5 w-4 h-4 cursor-pointer" src={number_product === 1 ? remove_icongray : remove_iconblack} alt="remove icon" />

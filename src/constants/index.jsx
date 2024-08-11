@@ -17,7 +17,7 @@ export const priceShippingMethod = [
         'title':'Free shipping',
         'price':'0',
         'description':'7-30 business days',
-        'isSelected':false
+        'isSelected':true
     },
     {  
         'title':'Regular shipping',

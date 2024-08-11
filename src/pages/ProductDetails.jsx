@@ -37,18 +37,15 @@ function ProductDetails() {
         }
         const data = await request.json();
         setProduct(data.data.product);  
-        console.log(data)
    
       }catch (error) {
-        console.error('Fetch error produit:', error);
         setError(error.message)
         throw error;
       }finally{
-            console.log('Requete terminé pour product details.')
             setTimeout(()=> {
               setLoading(false);
-            }, 3000)
-          }
+            }, 500)
+        }
       }
 
      getProduct()
@@ -59,12 +56,10 @@ function ProductDetails() {
           setProducts(getProducts);  
         }catch (error) {
           setErrorProducts(error.message);
-          console.log('Une erreur', error)
         }finally{
-          console.log('Requete terminé.')
           setTimeout(()=> {
             setLoadingProducts(false);
-          }, 1000)
+          }, 500)
         }  
     };
      
@@ -116,11 +111,11 @@ function ProductDetails() {
                       </ul>
                       <div className="flex flex-row gap-3.5">
                           <a href="/" className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-black text-white rounded-3xl items-center">Buy now</a>
-                          <a href="/" className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-white border border-black rounded-3xl items-center"> Add to cart</a>
+                          <button className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-white border border-black rounded-3xl items-center"> Add to cart</button>
                       </div>
                       <p className="font-chillax md:text-3xl text-2xl">Description</p>
                       <p className="text-gray-dark font-archivo md:text-lg text-sm">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis.
+                         {product.description}
                       </p>
                 </div>
             </div>

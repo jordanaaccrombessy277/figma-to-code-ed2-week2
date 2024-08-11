@@ -31,12 +31,10 @@ function HomePage() {
           setProducts(getProducts);  
         }catch (error) {
           setError(error.message);
-          console.log('Une erreur', error)
         }finally{
-           console.log('Requete terminé.')
            setTimeout(()=> {
             setLoading(false);
-           }, 3000)
+           }, 2000)
         }  
       };
        
