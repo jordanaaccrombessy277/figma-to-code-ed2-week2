@@ -1,3 +1,6 @@
+import circleselected from '../assets/icons/circle-selected.svg'
+import circlenotselected from '../assets/icons/circle-not-selected.svg'
+
 export const ProductCheckout = ({productImg, title, short_description,price }) => {
     return (
         <div className="flex flex-row gap-2.5 w-full items-center">
@@ -8,16 +11,16 @@ export const ProductCheckout = ({productImg, title, short_description,price }) =
                 <p className="font-archivo font-semibold md:text-sm text-10">{title}</p>
                 <p className="font-archivo font-medium md:text-xs text-10 text-gray-dark">{short_description}</p>
             </div>
-            <p className="font-archivo flex justify-end font-semibold md:text-sm text-10">{price}</p>
+            <p className="font-archivo flex justify-end font-semibold md:text-sm text-10">${price}</p>
         </div>
     )
  }
 
- export const ShippingMethod = ({iconshipping, title, short_description,price }) => {
+ export const ShippingMethod = ({isSelected,handleClickShippingMethod,title, short_description,price }) => {
     return (
-        <div className="flex flex-row rounded-xl w-full items-center p-3 border border-gray-light gap-5">
+        <div onClick={handleClickShippingMethod} className="flex cursor-pointer flex-row rounded-xl w-full items-center p-3 border border-gray-light gap-5">
            
-            <img src={iconshipping} className='' alt="icon shipping method" />
+            <img src={isSelected ? circleselected : circlenotselected} className='' alt="icon shipping method" />
             
             <div className="flex w-11/12 flex-col gap-0.5 justify-center">
                 <p className="font-archivo font-semibold md:text-sm text-10">{title}</p>

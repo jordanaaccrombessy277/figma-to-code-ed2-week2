@@ -58,7 +58,7 @@ function CartPage() {
                   </thead>
                   <tbody className=''>
                       {
-                        cart.length === 0 ? <p className="py-6 text-base">Vous n'avez encore ajouté aucun produit dans le panier</p> :
+                        cart.length === 0 ? <tr><td className="py-6 text-base">Vous n'avez encore ajouté aucun produit dans le panier</td></tr>  :
                         (
                            cart.map((product)=>(
                               <ProductCart key={product.id} handleRemoveFromCart={()=>handleRemoveFromCart(product)} productImg={product.featuredImage.url} add_icon={add_icon}

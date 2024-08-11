@@ -11,4 +11,25 @@ export const hero = [
     'Discover the latest fashion trends here',
     'Discover a world of fashion with our meticulously curated outfits. Shop now to update your wardrobe with chic and stylish outfits.'
 ]
+
+export const priceShippingMethod = [
+    {
+        'title':'Free shipping',
+        'price':'0',
+        'description':'7-30 business days',
+        'isSelected':false
+    },
+    {  
+        'title':'Regular shipping',
+        'price':'7.50',
+        'description':'3-14 business days',
+        'isSelected':false
+    },
+    {
+        'title':'Express shipping',
+        'price':'22.50',
+        'description':'1-3 business days',
+        'isSelected':false
+    }
+]
     

@@ -1,16 +1,46 @@
-import React from 'react'
-import jordantatum from '../assets/images/JORDAN+TATUM+2 1.svg'
-import top1 from '../assets/images/top1.svg' 
-import jacket1 from '../assets/images/jacket1.svg'
+import React, { useContext, useEffect, useState } from 'react'
 import { ProductCheckout, ShippingMethod, InputShippingAddress, PaymentMethod, InputLock } from '../components/checkout.components'
-import circleselected from '../assets/icons/circle-selected.svg'
-import circlenotselected from '../assets/icons/circle-not-selected.svg'
 import card_icon from '../assets/icons/card_icon.svg'
 import home_icon from '../assets/icons/home.svg'
 import lock from '../assets/icons/lock.svg'
 import arrowright from '../assets/icons/arrow-right.svg'
+import { CartContext } from '../context'
+import { priceShippingMethod } from '../constants'
 
 function CheckoutPage() {
+
+  const {cart} = useContext(CartContext)
+  const [subtotal, setSubtotal] = useState(0)
+  const [payment, setPayment] = useState(0)
+  const [selectedShippingMethod, setSelectedShippingMethod] = useState(priceShippingMethod)
+  const [shippingMethodPrice, setShippingMethodPrice] = useState(0)
+  
+
+  const handleClickShippingMethod = (index) =>{ 
+    setSelectedShippingMethod((prevSelectedShipping) =>
+       {
+        return prevSelectedShipping.map((element, i) => (
+        i === index ? {...element, isSelected:true } : {...element, isSelected:false } ))
+       });  
+
+       const selectedMethod = priceShippingMethod[index];
+       setShippingMethodPrice(parseFloat(selectedMethod.price));   
+  }
+
+  useEffect(() => {
+    const calculateSubtotal = () => {
+      let total = 0;
+      cart.forEach((product) => {
+        total += parseFloat(product.variants.edges[0].node.price.amount) * product.quantity;
+      });
+
+      setSubtotal(total);
+      setPayment(subtotal + shippingMethodPrice)
+    };
+ 
+    calculateSubtotal();
+  }, [cart, shippingMethodPrice, subtotal]);
+
   return (
     <div className='p-6 pt-10 pb-11 md:px-16 md:py-16 flex flex-col'>
           <p className="font-chillaxsemibold pb-5 md:text-2xl text-lg">Checkout</p>
@@ -19,9 +49,11 @@ function CheckoutPage() {
                   <p className="font-archivo py-1 font-semibold text-sm text-black">Your Order</p>
                   <p className="font-archivo font-medium text-gray-dark text-xs">By placing your order, you agree to Ballamas <span className='text-black'>Privacy</span> and <span className='text-black'>Policy</span>.</p>
                   <div className="flex flex-col gap-6 pt-4 pb-6 w-full">
-                        <ProductCheckout productImg={top1} title={`T-Shirt`} short_description={`Color: Green - Size: Large`} price={`$174.00`}/>
-                        <ProductCheckout productImg={jacket1} title={`Men's Dri-FIT Golf Jacket`} short_description={`Color: Ocean - Size: Large`} price={`$100.00`}/>
-                        <ProductCheckout productImg={jordantatum} title={`Tatum 2 "Red Cement"`} short_description={`Size: 15`} price={`$250.00`}/>
+                        {
+                            cart.map((product)=>(
+                                <ProductCheckout key={product.id} productImg={product.featuredImage.url} title={product.title} short_description={product.description} price={parseFloat(product.variants.edges[0].node.price.amount) * product.quantity}/>
+                            ))
+                        }
                   </div>
                   <div className="flex flex-col gap-1">
                       <p className="font-archivo font-medium text-xs">Discount Code</p>
@@ -34,7 +66,7 @@ function CheckoutPage() {
                   <div className="py-4 flex flex-col gap-1 border-b">
                       <div className="flex flex-row justify-between">
                           <p className="font-archivo font-medium text-sm text-gray-dark">Subtotal</p>
-                          <p className="font-archivo font-medium text-sm text-gray-dark">$524.00</p>
+                          <p className="font-archivo font-medium text-sm text-gray-dark">${subtotal}</p>
                       </div>
                       <div className="flex flex-row justify-between">
                           <p className="font-archivo font-medium text-sm text-gray-dark">Discount</p>
@@ -43,14 +75,18 @@ function CheckoutPage() {
                   </div>
                   <div className="flex pt-3 flex-row justify-between">
                       <p className="font-archivo font-semibold text-sm">Order total</p>
-                      <p className="font-archivo font-extrabold text-base">$524.00</p>
+                      <p className="font-archivo font-extrabold text-base">${subtotal}</p>
                   </div>
                   <div className="py-6">
                       <p className="font-archivo font-semibold text-sm">Shipping method</p>
                       <div className="flex flex-col py-3.5 gap-3">
-                          <ShippingMethod iconshipping={circlenotselected} title={`Free shipping`} short_description={`7-30 business days`} price={`0`} />
-                          <ShippingMethod iconshipping={circleselected} title={`Regular shipping`} short_description={`3-14 business days`} price={`7,50`} />
-                          <ShippingMethod iconshipping={circlenotselected} title={`Express shipping`} short_description={`1-3 business days`} price={`22,50`} />
+                           {
+                             selectedShippingMethod.map((element, index)=>(
+                                <ShippingMethod key={index} isSelected={element.isSelected} handleClickShippingMethod={()=>handleClickShippingMethod(index)} 
+                                title={element.title} short_description={element.description} 
+                                price={element.price} />
+                             ))
+                           }
                       </div>
                   </div>
                </div>
@@ -83,7 +119,7 @@ function CheckoutPage() {
                         <p className="w-11/12 flex justify-start font-archivo text-xs">Use shipping address as billing address</p>
                     </div>
                     <p className="font-archivo md:w-60 md:mx-auto pt-2 font-semibold text-sm">
-                        <a href="/" className="px-2.5 py-3 bg-black text-white rounded-3xl flex flex-row items-center gap-1.5 justify-center"> <span>Pay $524.00</span> <img src={arrowright} alt="" /></a>
+                        <a href="/payment-confirmation" className="px-2.5 py-3 bg-black text-white rounded-3xl flex flex-row items-center gap-1.5 justify-center"> <span>Pay ${payment}</span> <img src={arrowright} alt="" /></a>
                     </p>
                </div>
           </div>
