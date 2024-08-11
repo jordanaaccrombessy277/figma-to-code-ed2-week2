@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import check from '../assets/icons/checkline.svg'
+import { CartContext } from '../context';
 
 function PaymentConfirmationPage() {
+
+  const {clearCart} = useContext(CartContext)
+
+  const handleClearCart = () => {
+    clearCart();
+ }
+
+ useEffect(()=>{
+    handleClearCart()
+ }, [])
+
   return (
     <div className='p-6 md:px-16 flex flex-wrap justify-center lg:h-screen h-auto'>
          <div className="flex flex-col place-items-center gap-2.5 py-8 md:py-32">

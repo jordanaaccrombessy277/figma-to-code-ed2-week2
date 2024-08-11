@@ -17,7 +17,7 @@ import remove_icongray from '../assets/icons/remove_icon.svg'
                     </div>
                 </div>
             </td>
-            <td className='py-5 md:w-10 w-60 border'>                       
+            <td className='py-5 md:w-10 w-60'>                       
                 <div className="flex flex-row md:gap-2 gap-1.5 justify-center">
                     <div className="flex flex-row md:p-3 justify-center py-2 md:gap-3 gap-1.5 bg-grayopacity40 rounded-3xl">
                         <img onClick={number_product === 1 ? null : ()=>decrementQuantityProduct()} className="md:w-5 md:h-5 w-4 h-4 cursor-pointer" src={number_product === 1 ? remove_icongray : remove_iconblack} alt="remove icon" />
