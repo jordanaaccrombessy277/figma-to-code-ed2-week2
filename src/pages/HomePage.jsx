@@ -8,20 +8,22 @@ import classicman from '../assets/logos/CLASSIC MEN.png'
 import abrahamg from '../assets/images/abraham-george-wwVtHt5Px18-unsplash.svg'
 import techmen from '../assets/images/tech-mens-fleece-shacket-W5pmdx.svg'
 import { fetchProducts } from '../services/productService'
-import { Link } from 'react-router-dom';
 import { CartContext } from '../context'
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
 
    const [products, setProducts] = useState([])
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
+   const navigate = useNavigate()
 
    const {addToCart} = useContext(CartContext)
 
-   const handleAddToCart = (product) => {
+   const handleBuyNow = (product) => {
       addToCart(product);
-    };
+      navigate('/cart')
+   }
 
    useEffect(() => {
      
@@ -58,10 +60,8 @@ function HomePage() {
           : error ? <p className='text-center p-6 text-base text-red-500'>{error}</p> : (
               <div className="px-6 md:px-150 py-9 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3.5">
                   {
-                     products.map((product)=>(
-                       <Link key={product.id} to={`/product-details/${encodeURIComponent(product.id)}`} className="">
-                          <Product handleAddToCart={()=>handleAddToCart(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
-                       </Link>
+                     products.map((product)=>(          
+                          <Product key={product.id} id={product.id} handleBuyNow={()=>handleBuyNow(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} />          
                       ))                 
                   }
               </div> )

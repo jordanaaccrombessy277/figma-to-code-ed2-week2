@@ -17,3 +17,9 @@ export const AddToCartButton = ({handleClickAdd}) => {
         <button onClick={()=>handleClickAdd()} className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-white border border-black rounded-3xl items-center"> Add to cart</button>
     )
 }
+
+export const BuyToNowButton = ({handleBuyNow}) => {
+    return(
+        <button onClick={()=>handleBuyNow()} className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-black text-white rounded-3xl items-center">Buy now</button>
+    )
+}

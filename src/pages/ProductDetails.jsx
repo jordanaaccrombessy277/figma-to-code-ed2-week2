@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import Product from '../components/Product'
-import { SizeProduct, ColorProduct, AddToCartButton } from '../components/product.components'
+import { SizeProduct, ColorProduct, AddToCartButton,BuyToNowButton } from '../components/product.components'
 import cart from '../assets/icons/cart.svg'
 import { fetchProducts, fetchProduct } from '../services/productService'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate} from 'react-router-dom'
 import { CartContext } from '../context'
 
 
@@ -22,10 +22,16 @@ function ProductDetails() {
   const [isSelectedSize, setIsSelectedSize] = useState([false, false, false, false, false])
 
   const {addToCart} = useContext(CartContext)
+  const navigate= useNavigate()
 
   const handleAddToCart = (product) => {
     addToCart(product);
   };
+
+  const handleBuyNow = (product) => {
+    addToCart(product);
+    navigate('/cart')
+ }
 
   useEffect(()=>{
     
@@ -104,7 +110,7 @@ function ProductDetails() {
                           <SizeProduct size={`XL`} isSelected={isSelectedSize[4]} handleClickSizeProduct={() => handleClickSizeProduct(4)} />
                       </ul>
                       <div className="flex flex-row gap-3.5">
-                          <a href="/" className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-black text-white rounded-3xl items-center">Buy now</a>
+                          <BuyToNowButton handleBuyNow={()=>handleBuyNow(product)} />
                           <AddToCartButton handleClickAdd={()=>handleAddToCart(product)} />
                       </div>
                       <p className="font-chillax md:text-3xl text-2xl">Description</p>
@@ -119,11 +125,9 @@ function ProductDetails() {
                 : errorProducts ? <p className='text-center p-6 text-base font-semibold text-red-500'>{error}</p> :
                 (<div className="py-8 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3.5">
                         {
-                          products.map((product)=>(
-                            <Link key={product.id} to={`/product-details/${encodeURIComponent(product.id)}`} className="">
-                              <Product handleAddToCart={()=>handleAddToCart(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} /> 
-                            </Link>
-                            ))                 
+                           products.map((product)=>(          
+                            <Product key={product.id} id={product.id} handleBuyNow={()=>handleBuyNow(product)} productImg={product.featuredImage.url} productCurrencyCode={product.variants.edges[0].node.price.currencyCode} productPrice={product.variants.edges[0].node.price.amount} productTitle={product.title} cart={cart} />          
+                           ))                
                         }
                  </div>) 
               }
