@@ -11,10 +11,26 @@ export const fetchProducts = async (numberProducts) => {
       return productsExtract;
      
     }catch (error) {
-        console.error('Fetch error produits:', error);
+        console.error('Fetch error product:', error);
         throw error;
       } 
   };
+
+ export const fetchProduct = async (id) =>{
+
+    try {
+      const request = await fetch(`https://mock.shop/api?query={product(id:%20%22${id}%22){id%20title%20description%20featuredImage%20{id%20url}%20variants(first:%203){edges%20{cursor%20node%20{id%20title%20image%20{url}%20price%20{amount%20currencyCode}}}}}}`)
+      if (!request.ok){
+          throw new Error('La requête de récupération du produit a échoué');
+      }
+      const data = await request.json();
+      return data.data.product;  
+ 
+    }catch (error) {
+      console.error('Fetch error product:', error);
+      throw error;
+    }
+}
 
 
 

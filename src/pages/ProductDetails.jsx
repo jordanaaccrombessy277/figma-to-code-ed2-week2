@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import Product from '../components/Product'
-import { SizeProduct, ColorProduct } from '../components/product.components'
+import { SizeProduct, ColorProduct, AddToCartButton } from '../components/product.components'
 import cart from '../assets/icons/cart.svg'
-import { fetchProducts } from '../services/productService'
+import { fetchProducts, fetchProduct } from '../services/productService'
 import { useParams, Link } from 'react-router-dom'
 import { CartContext } from '../context'
 
@@ -28,25 +28,19 @@ function ProductDetails() {
   };
 
   useEffect(()=>{
-     const getProduct = async () =>{
-
-      try {
-        const request = await fetch(`https://mock.shop/api?query=%7B%20product(id%3A%20%22${id}%22)%20%7B%20id%20title%20description%20featuredImage%20%7B%20id%20url%20%7D%20%7D%7D`)
-        if (!request.ok){
-            throw new Error('La requête de récupération du produit a échoué');
-        }
-        const data = await request.json();
-        setProduct(data.data.product);  
-   
-      }catch (error) {
-        setError(error.message)
-        throw error;
-      }finally{
-            setTimeout(()=> {
-              setLoading(false);
-            }, 500)
-        }
-      }
+    
+      const getProduct = async () => {
+        try {  
+          const getProduct = await fetchProduct(id)
+          setProduct(getProduct);  
+        }catch (error) {
+          setError(error.message);
+        }finally{
+          setTimeout(()=> {
+            setLoading(false);
+          }, 500)
+        }  
+    };
 
      getProduct()
 
@@ -111,7 +105,7 @@ function ProductDetails() {
                       </ul>
                       <div className="flex flex-row gap-3.5">
                           <a href="/" className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-black text-white rounded-3xl items-center">Buy now</a>
-                          <button className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-white border border-black rounded-3xl items-center"> Add to cart</button>
+                          <AddToCartButton handleClickAdd={()=>handleAddToCart(product)} />
                       </div>
                       <p className="font-chillax md:text-3xl text-2xl">Description</p>
                       <p className="text-gray-dark font-archivo md:text-lg text-sm">
@@ -119,7 +113,6 @@ function ProductDetails() {
                       </p>
                 </div>
             </div>
-
             <div className="p-6 md:px-16">
               <p className="font-chillax py-2 font-semibold md:text-3xl text-2xl">You may also like</p>
               { loadingProducts ? <p className="text-center p-6 text-base font-semibold">Loading...</p>

@@ -11,3 +11,9 @@ export const ColorProduct = ({bgColor, isSelected, handleClickColorProduct}) => 
         <span onClick={handleClickColorProduct} className={`w-7 h-7 cursor-pointer ${bgColor} ${isSelected ? 'border-2 border-gray-light' : ''} rounded-full inline-block`}></span>
     )
 }
+
+export const AddToCartButton = ({handleClickAdd}) => {
+    return (
+        <button onClick={()=>handleClickAdd()} className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-white border border-black rounded-3xl items-center"> Add to cart</button>
+    )
+}
