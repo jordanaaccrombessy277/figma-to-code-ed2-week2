@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 import Product from '../components/Product'
-import { SizeProduct, ColorProduct, AddToCartButton,BuyToNowButton } from '../components/product.components'
+import { SizeProduct, ColorProduct, AddToCartButton,BuyNowButton } from '../components/product.components'
 import cart from '../assets/icons/cart.svg'
 import { fetchProducts, fetchProduct } from '../services/productService'
 import { useParams, useNavigate} from 'react-router-dom'
@@ -110,7 +110,7 @@ function ProductDetails() {
                           <SizeProduct size={`XL`} isSelected={isSelectedSize[4]} handleClickSizeProduct={() => handleClickSizeProduct(4)} />
                       </ul>
                       <div className="flex flex-row gap-3.5">
-                          <BuyToNowButton handleBuyNow={()=>handleBuyNow(product)} />
+                          <BuyNowButton handleBuyNow={()=>handleBuyNow(product)} />
                           <AddToCartButton handleClickAdd={()=>handleAddToCart(product)} />
                       </div>
                       <p className="font-chillax md:text-3xl text-2xl">Description</p>
@@ -122,7 +122,7 @@ function ProductDetails() {
             <div className="p-6 md:px-16">
               <p className="font-chillax py-2 font-semibold md:text-3xl text-2xl">You may also like</p>
               { loadingProducts ? <p className="text-center p-6 text-base font-semibold">Loading...</p>
-                : errorProducts ? <p className='text-center p-6 text-base font-semibold text-red-500'>{error}</p> :
+                : errorProducts ? <p className='text-center p-6 text-base font-semibold text-red-500'>{errorProducts}</p> :
                 (<div className="py-8 grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3.5">
                         {
                            products.map((product)=>(          

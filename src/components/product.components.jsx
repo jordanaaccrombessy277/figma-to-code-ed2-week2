@@ -18,7 +18,7 @@ export const AddToCartButton = ({handleClickAdd}) => {
     )
 }
 
-export const BuyToNowButton = ({handleBuyNow}) => {
+export const BuyNowButton = ({handleBuyNow}) => {
     return(
         <button onClick={()=>handleBuyNow()} className="uppercase font-archivo font-semibold text-sm w-1/2 flex justify-center md:h-14 h-10 bg-black text-white rounded-3xl items-center">Buy now</button>
     )
